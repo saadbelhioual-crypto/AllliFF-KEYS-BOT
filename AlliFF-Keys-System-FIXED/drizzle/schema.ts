@@ -1,7 +1,7 @@
-import { pgTable, serial, text, varchar, timestamp, integer, boolean, numeric, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, timestamp, integer, boolean, numeric, jsonb, bigint } from "drizzle-orm/pg-core";
 
 /**
- * Users Table
+ * Users Table - المعدل
  */
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -12,13 +12,14 @@ export const users = pgTable("users", {
   role: varchar("role", { length: 50 }),
   passwordhash: text("passwordhash"),
   telegramid: varchar("telegramid", { length: 255 }),
-  userid: integer("userid"),
+  userid: bigint("userid", { mode: "number" }), // ✅ تغيير من integer إلى bigint
   welcomesent: boolean("welcomesent").default(false),
   isbanned: boolean("isbanned").default(false),
   deleteattempts: integer("deleteattempts").default(3),
   createdat: timestamp("createdat").defaultNow(),
   updatedat: timestamp("updatedat").defaultNow(),
   lastsignedin: timestamp("lastsignedin"),
+  points: integer("points").default(0), // ✅ إضافة عمود النقاط
 });
 
 /**
